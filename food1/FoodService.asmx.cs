@@ -91,6 +91,50 @@ namespace food1
 
 
 
+        [WebMethod]
+        public void InsertOneitem(string quantity, string total, string productId, string cartId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@quantity", quantity));
+            arr.Add(new paramList("@total", total));
+            arr.Add(new paramList("@productId", productId));
+            arr.Add(new paramList("@cartId", cartId));
+
+            //         Connection.spExec("prc_oved_insert",arr) 
+            if (Connection.spExec("InsertOneitem", arr))
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(true));
+            }
+            else
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(false));
+            }
+        }
+
+
+
+
+
+        [WebMethod]
+        public void addCart(string userId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@userId", userId));
+            //         Connection.spExec("prc_oved_insert",arr) 
+            if (Connection.spExec("AddCart", arr))
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(true));
+            }
+            else
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(false));
+            }
+        }
+
+
+
+
+
 
         [WebMethod]
         public void UpDateProduct(string productname, string amount, string price, string imageName, string note, string status, string productId)
@@ -114,6 +158,37 @@ namespace food1
                 Context.Response.Write(JsonConvert.SerializeObject(false));
             }
         }
+
+
+
+
+        [WebMethod]
+        public void UpDateItem(string quantity, string total, string productId, string cartId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@quantity", quantity));
+            arr.Add(new paramList("@total", total));
+            arr.Add(new paramList("@productId", productId));
+            arr.Add(new paramList("@cartId", cartId));
+
+            //         Connection.spExec("prc_oved_insert",arr) 
+            if (Connection.spExec("UpDateItem", arr))
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(true));
+            }
+            else
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(false));
+            }
+        }
+
+
+
+
+
+
+
+
 
 
         [WebMethod]
@@ -141,6 +216,88 @@ namespace food1
             DataSet ds = Connection.GetDataSetBySP("GetOneProduct", arr);
             Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
         }
+
+
+        [WebMethod]
+        public void getOneUser(string userId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@userId", userId));
+            DataSet ds = Connection.GetDataSetBySP("GetOneUser", arr);
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+
+
+
+        
+
+        [WebMethod]
+        public void getOneitem(string productId, string cartId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@productId", productId));
+            arr.Add(new paramList("@cartId", cartId));
+            DataSet ds = Connection.GetDataSetBySP("GetOneitem", arr);
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+
+
+        
+
+
+        [WebMethod]
+        public void GetOneCart(string userId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@userId", userId));
+            DataSet ds = Connection.GetDataSetBySP("GetOneCart", arr);
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+
+
+
+
+        [WebMethod]
+        public void GetCartByUser(string userId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@userId", userId));
+            DataSet ds = Connection.GetDataSetBySP("getCartByUser", arr);
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+
+        [WebMethod]
+        public void GetAllItemsByCart(string cartId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@cartId", cartId));
+            DataSet ds = Connection.GetDataSetBySP("getAllItemsByCart", arr);
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+
+
+        }
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
