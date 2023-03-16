@@ -51,23 +51,46 @@ namespace food1
         }
 
 
-
         [WebMethod]
         public void DeleteOne(string productId)
         {
             ArrayList arr = new ArrayList();
             arr.Add(new paramList("@productId", productId));
-            DataSet ds = Connection.GetDataSetBySP("DeleteOne", arr);
-            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
 
+            //         Connection.spExec("prc_oved_insert",arr) 
+            if (Connection.spExec("DeleteOne", arr))
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(true));
+            }
+            else
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(false));
+            }
+        }
+
+
+        [WebMethod]
+        public void deleteItemfromShoppingCart(string productId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@productId", productId));
+
+            //         Connection.spExec("prc_oved_insert",arr) 
+            if (Connection.spExec("DeleteItemfromShoppingCart", arr))
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(true));
+            }
+            else
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(false));
+            }
         }
 
 
 
 
-
         [WebMethod]
-        public void InsertOne(string productname, string amount, string price, string imageName, string note, string status,string productId)
+        public void InsertOne(string productname, string amount, string price, string imageName, string note, string status,string productId,string categoryId)
         {
             ArrayList arr = new ArrayList();
             arr.Add(new paramList("@productname", productname));
@@ -77,6 +100,9 @@ namespace food1
             arr.Add(new paramList("@note", note));
             arr.Add(new paramList("@status", status));
             arr.Add(new paramList("@productId", productId));
+            arr.Add(new paramList("@categoryId", categoryId));
+
+            
 
             //         Connection.spExec("prc_oved_insert",arr) 
             if (Connection.spExec("InsertOne",arr))
@@ -88,6 +114,32 @@ namespace food1
                 Context.Response.Write(JsonConvert.SerializeObject(false));
             }
         }
+
+
+
+        [WebMethod]
+        public void insertPurchaseDetailsByUser(string amount, string date, string productname, string quantity, string total, string userId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@amount", amount));
+            arr.Add(new paramList("@date", date));
+            arr.Add(new paramList("@productname", productname));
+            arr.Add(new paramList("@quantity", quantity));
+            arr.Add(new paramList("@total", total));
+            arr.Add(new paramList("@userId", userId));
+
+            //         Connection.spExec("prc_oved_insert",arr) 
+            if (Connection.spExec("InsertPurchaseDetailsByUser", arr))
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(true));
+            }
+            else
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(false));
+            }
+        }
+
+
 
 
 
