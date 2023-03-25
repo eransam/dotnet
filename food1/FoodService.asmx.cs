@@ -37,6 +37,33 @@ namespace food1
 
 
         [WebMethod]
+
+        public void getUserTotalByDate()
+        {
+            DataSet ds = Connection.GetDataSetBySqlStr("GetUserTotalByDate");
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+        
+
+
+        [WebMethod]
+        public void getFullNameAnrUserId()
+        {
+            DataSet ds = Connection.GetDataSetBySqlStr("GetFullNameAnrUserId");
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+        [WebMethod]
+        public void getAllRepMin2()
+        {
+            DataSet ds = Connection.GetDataSetBySqlStr("GetAllRepMin2");
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+        
+
+
+        [WebMethod]
         public void getAllWorkers()
         {
             DataSet ds = Connection.GetDataSetBySqlStr("GetAllWorkers");
@@ -70,6 +97,29 @@ namespace food1
 
 
         [WebMethod]
+        public void DeleteAllItemFromCart(string cartId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@cartId", cartId));
+
+            //         Connection.spExec("prc_oved_insert",arr) 
+            if (Connection.spExec("deleteAllItemFromCart", arr))
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(true));
+            }
+            else
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(false));
+            }
+        }
+
+        
+
+
+
+
+
+        [WebMethod]
         public void deleteItemfromShoppingCart(string productId)
         {
             ArrayList arr = new ArrayList();
@@ -90,7 +140,7 @@ namespace food1
 
 
         [WebMethod]
-        public void InsertOne(string productname, string amount, string price, string imageName, string note, string status,string productId,string categoryId)
+        public void InsertOne(string productname, string amount, string price, string imageName, string note, string status,string categoryId)
         {
             ArrayList arr = new ArrayList();
             arr.Add(new paramList("@productname", productname));
@@ -99,7 +149,6 @@ namespace food1
             arr.Add(new paramList("@imageName", imageName));
             arr.Add(new paramList("@note", note));
             arr.Add(new paramList("@status", status));
-            arr.Add(new paramList("@productId", productId));
             arr.Add(new paramList("@categoryId", categoryId));
 
             
@@ -166,6 +215,35 @@ namespace food1
 
 
 
+        [WebMethod]
+        public void updateOneProduct(string productname, string amount, string price, string imageName, string note, string status, string productId)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@productname", productname));
+            arr.Add(new paramList("@amount", amount));
+            arr.Add(new paramList("@price", price));
+            arr.Add(new paramList("@imageName", imageName));
+            arr.Add(new paramList("@note", note));
+            arr.Add(new paramList("@status", status));
+            arr.Add(new paramList("@productId", productId));
+
+            if (Connection.spExec("UpdateOneProduct", arr))
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(true));
+            }
+            else
+            {
+                Context.Response.Write(JsonConvert.SerializeObject(false));
+            }
+        }
+
+
+
+
+
+
+
+
 
         [WebMethod]
         public void addCart(string userId)
@@ -189,18 +267,17 @@ namespace food1
 
 
         [WebMethod]
-        public void UpDateProduct(string productname, string amount, string price, string imageName, string note, string status, string productId)
+        public void upDateProduct(string productname, string price, string amount, string imageName, string note, string status, string productId)
         {
             ArrayList arr = new ArrayList();
             arr.Add(new paramList("@productname", productname));
-            arr.Add(new paramList("@amount", amount));
-            arr.Add(new paramList("@@price", price));
+            arr.Add(new paramList("@@price", amount));
+            arr.Add(new paramList("@amount", price));
             arr.Add(new paramList("@imageName", imageName));
             arr.Add(new paramList("@note", note));
             arr.Add(new paramList("@status", status));
             arr.Add(new paramList("@productId", productId));
 
-            //         Connection.spExec("prc_oved_insert",arr) 
             if (Connection.spExec("UpDateProduct", arr))
             {
                 Context.Response.Write(JsonConvert.SerializeObject(true));
@@ -261,13 +338,41 @@ namespace food1
 
 
         [WebMethod]
-        public void GetOneProduct(string productId)
+        public void GetOneProduct(string productname)
         {
             ArrayList arr = new ArrayList();
-            arr.Add(new paramList("@productId", productId));
+            arr.Add(new paramList("@productname", productname));
             DataSet ds = Connection.GetDataSetBySP("GetOneProduct", arr);
             Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
         }
+
+
+
+        [WebMethod]
+        public void getRepByUserIdAndMonth(string userId, string monthNum)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@userId", userId));
+            arr.Add(new paramList("@monthNum", monthNum));
+            DataSet ds = Connection.GetDataSetBySP("GetRepByUserIdAndMonth", arr);
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+
+
+        [WebMethod]
+        public void getRepByUserIdAndMonthAandYear(string userId, string monthNum, string yearNum)
+        {
+            ArrayList arr = new ArrayList();
+            arr.Add(new paramList("@userId", userId));
+            arr.Add(new paramList("@monthNum", monthNum));
+            arr.Add(new paramList("@yearNum", yearNum));
+            DataSet ds = Connection.GetDataSetBySP("GetRepByUserIdAndMonthAandYear", arr);
+            Context.Response.Write(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+
+
 
 
         [WebMethod]
